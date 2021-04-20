@@ -1,1 +1,3 @@
 # athan-api
+
+- `stackery init`
