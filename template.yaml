@@ -14,14 +14,13 @@ Resources:
       UserPoolName: !Sub ${AWS::StackName}-UserPool
       AdminCreateUserConfig:
         AllowAdminCreateUserOnly: false
-      AliasAttributes:
+      UsernameAttributes:
         - email
-        - preferred_username
+      AutoVerifiedAttributes:
+        - email
       Policies:
         PasswordPolicy:
           MinimumLength: 8
-      AutoVerifiedAttributes:
-        - email
       Schema:
         - AttributeDataType: String
           Name: email
