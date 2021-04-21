@@ -1,2 +1,2 @@
-function-id: Function
+function-id: NoAuthFunction
 template-path: ../../template.yaml

@@ -4,6 +4,6 @@ exports.handler = async (event, context) => {
 
   return {
     statusCode: 200,
-    body: "hello world",
+    body: `hello world from the auth lambda. Random number: ${Math.random()}`,
   };
 };

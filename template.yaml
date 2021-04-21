@@ -1,32 +1,85 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
+Parameters:
+  StackTagName:
+    Type: String
+    Description: Stack Name (injected by Stackery at deployment time)
+  EnvironmentTagName:
+    Type: String
+    Description: Environment Name (injected by Stackery at deployment time)
 Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
+      UserPoolName: !Sub ${AWS::StackName}-UserPool
       AdminCreateUserConfig:
         AllowAdminCreateUserOnly: false
       AliasAttributes:
         - email
         - preferred_username
-      UserPoolName: !Sub ${AWS::StackName}-UserPool
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+      AutoVerifiedAttributes:
+        - email
+      Schema:
+        - AttributeDataType: String
+          Name: email
+          Required: false
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Sub ${AWS::StackName}-${AWS::AccountId}
+      UserPoolId: !Ref UserPool
   UserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
       UserPoolId: !Ref UserPool
+      ClientName: !Sub ${AWS::StackName}-UserPoolClient
+      GenerateSecret: false
+      SupportedIdentityProviders:
+        - COGNITO
+      CallbackURLs:
+        - http://localhost:3000
+        - http://localhost:8080
+      LogoutURLs:
+        - http://localhost:3000
+        - http://localhost:8080
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows:
+        - code
+        - implicit
+      AllowedOAuthScopes:
+        - email
+        - openid
+        - profile
   HttpApi:
     Type: AWS::Serverless::HttpApi
     Properties:
       DefinitionBody:
-        openapi: '3.0'
+        openapi: "3.0"
         info:
           title: !Sub ${AWS::StackName}-HttpApi
-          version: '1.0'
+          version: "1.0"
         paths:
           /:
             get:
               responses: {}
+          /admin:
+            get:
+              responses: {}
       FailOnWarnings: true
+      CorsConfiguration:
+        AllowHeaders:
+          - Content-Type
+          - Authorization
+        AllowMethods:
+          - OPTIONS
+          - GET
+          - POST
+        AllowOrigins:
+          - http://*
+          - https://*
       Auth:
         Authorizers:
           CognitoAuthorizer:
@@ -35,15 +88,15 @@ Resources:
               issuer: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}
               audience:
                 - !Ref UserPoolClient
-        DefaultAuthorizer: CognitoAuthorizer
-  Function:
+        # DefaultAuthorizer: CognitoAuthorizer
+  NoAuthFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub ${AWS::StackName}-Function
+      FunctionName: !Sub ${AWS::StackName}-NoAuthFunction
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
-        - ResourceName: Function
-      CodeUri: src/Function
+        - ResourceName: NoAuthFunction
+      CodeUri: src/NoAuthFunction
       Handler: index.handler
       Runtime: nodejs12.x
       MemorySize: 3008
@@ -58,12 +111,31 @@ Resources:
             Path: /
             Method: GET
             ApiId: !Ref HttpApi
-            PayloadFormatVersion: '2.0'
+            PayloadFormatVersion: "2.0"
             TimeoutInMillis: 29000
-Parameters:
-  StackTagName:
-    Type: String
-    Description: Stack Name (injected by Stackery at deployment time)
-  EnvironmentTagName:
-    Type: String
-    Description: Environment Name (injected by Stackery at deployment time)
+  AuthFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-AuthFunction
+      Description: !Sub
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: AuthFunction
+      CodeUri: src/AuthFunction
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+      Events:
+        HttpApiGETadmin:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: CognitoAuthorizer
+            Path: /admin
+            Method: GET
+            ApiId: !Ref HttpApi
+            PayloadFormatVersion: "2.0"
+            TimeoutInMillis: 29000
