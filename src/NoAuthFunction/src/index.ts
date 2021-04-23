@@ -3,7 +3,7 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 export const handler: APIGatewayProxyHandler = async (event) => {
   try {
     const response = {
-      hello: `Auth route. ${Math.random()}`
+      hello: `No Auth route. ${Math.random()}`
     };
 
     return {

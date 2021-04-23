@@ -95,7 +95,7 @@ Resources:
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
         - ResourceName: NoAuthFunction
-      CodeUri: src/NoAuthFunction
+      CodeUri: src/NoAuthFunction/dist
       Handler: index.handler
       Runtime: nodejs12.x
       MemorySize: 3008
@@ -112,6 +112,8 @@ Resources:
             ApiId: !Ref HttpApi
             PayloadFormatVersion: '2.0'
             TimeoutInMillis: 29000
+    Metadata:
+      RuntimeOption: typescript
   AuthFunction:
     Type: AWS::Serverless::Function
     Properties:
