@@ -119,7 +119,7 @@ Resources:
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
         - ResourceName: AuthFunction
-      CodeUri: src/AuthFunction
+      CodeUri: src/AuthFunction/dist
       Handler: index.handler
       Runtime: nodejs12.x
       MemorySize: 3008
@@ -138,3 +138,5 @@ Resources:
             ApiId: !Ref HttpApi
             PayloadFormatVersion: '2.0'
             TimeoutInMillis: 29000
+    Metadata:
+      RuntimeOption: typescript
