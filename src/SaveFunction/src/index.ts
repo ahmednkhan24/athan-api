@@ -1,7 +1,19 @@
-export const handler = async (event: any = {}): Promise<any> => {
-  // Log the event argument for debugging and for use in local development.
-  const response = JSON.stringify(event, undefined, 2);
-  console.log(response);
+import { APIGatewayProxyHandler } from 'aws-lambda';
 
-  return response;
-}
+export const handler: APIGatewayProxyHandler = async (event) => {
+  try {
+    const response = {
+      hello: `No Auth route. ${Math.random()}`
+    };
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(response)
+    };
+  } catch (err) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({})
+    };
+  }
+};
