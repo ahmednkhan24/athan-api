@@ -3,5 +3,8 @@ export const handler = async (event: any = {}): Promise<any> => {
   const response = JSON.stringify(event, undefined, 2);
   console.log(response);
 
-  return response;
-}
+  return {
+    statusCode: 201,
+    body: 'hello world from post lambda.'
+  };
+};

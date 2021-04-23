@@ -164,8 +164,6 @@ Resources:
         HttpApiPOSTsave:
           Type: HttpApi
           Properties:
-            Auth:
-              Authorizer: CognitoAuthorizer
             Path: /save
             Method: POST
             ApiId: !Ref HttpApi
