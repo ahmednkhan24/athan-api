@@ -56,10 +56,10 @@ Resources:
     Type: AWS::Serverless::HttpApi
     Properties:
       DefinitionBody:
-        openapi: "3.0"
+        openapi: '3.0'
         info:
           title: !Sub ${AWS::StackName}-HttpApi
-          version: "1.0"
+          version: '1.0'
         paths:
           /:
             get:
@@ -110,7 +110,7 @@ Resources:
             Path: /
             Method: GET
             ApiId: !Ref HttpApi
-            PayloadFormatVersion: "2.0"
+            PayloadFormatVersion: '2.0'
             TimeoutInMillis: 29000
   AuthFunction:
     Type: AWS::Serverless::Function
@@ -136,5 +136,5 @@ Resources:
             Path: /admin
             Method: GET
             ApiId: !Ref HttpApi
-            PayloadFormatVersion: "2.0"
+            PayloadFormatVersion: '2.0'
             TimeoutInMillis: 29000
