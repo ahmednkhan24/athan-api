@@ -1,4 +1,6 @@
-# #!/bin/bash
+#!/bin/bash
+
+echo running stackery.prebuild.sh script
 
 # set -e
 
