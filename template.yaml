@@ -67,6 +67,9 @@ Resources:
           /admin:
             get:
               responses: {}
+          /save:
+            post:
+              responses: {}
       FailOnWarnings: true
       CorsConfiguration:
         AllowHeaders:
@@ -137,6 +140,34 @@ Resources:
               Authorizer: CognitoAuthorizer
             Path: /admin
             Method: GET
+            ApiId: !Ref HttpApi
+            PayloadFormatVersion: '2.0'
+            TimeoutInMillis: 29000
+    Metadata:
+      RuntimeOption: typescript
+  SaveFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-SaveFunction
+      Description: !Sub
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: SaveFunction
+      CodeUri: src/SaveFunction/dist
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 3008
+      Timeout: 30
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+      Events:
+        HttpApiPOSTsave:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: CognitoAuthorizer
+            Path: /save
+            Method: POST
             ApiId: !Ref HttpApi
             PayloadFormatVersion: '2.0'
             TimeoutInMillis: 29000
