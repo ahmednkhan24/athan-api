@@ -160,8 +160,6 @@ Resources:
       Tracing: Active
       Policies:
         - AWSXrayWriteOnlyAccess
-        - DynamoDBCrudPolicy:
-            TableName: !Ref Table
       Events:
         HttpApiPOSTsave:
           Type: HttpApi
@@ -173,21 +171,5 @@ Resources:
             ApiId: !Ref HttpApi
             PayloadFormatVersion: '2.0'
             TimeoutInMillis: 29000
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref Table
-          TABLE_ARN: !GetAtt Table.Arn
     Metadata:
       RuntimeOption: typescript
-  Table:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
-      BillingMode: PAY_PER_REQUEST
-      KeySchema:
-        - AttributeName: id
-          KeyType: HASH
-      StreamSpecification:
-        StreamViewType: NEW_AND_OLD_IMAGES
