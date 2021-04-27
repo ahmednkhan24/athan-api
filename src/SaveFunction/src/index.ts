@@ -32,6 +32,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
     console.log(
       `Error writing to table ${process.env.TABLE_NAME}. Make sure this function is running in the same environment as the table.`
     );
+    console.log('error: ', err);
     return {
       statusCode: 401,
       body: JSON.stringify({})
