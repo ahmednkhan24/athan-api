@@ -9,7 +9,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
     const params = {
       TableName: process.env.TABLE_NAME, // get the table name from the automatically populated environment variables
       Item: {
-        id, // modify with each invoke so the id does not repeat
+        id: id.toString(), // modify with each invoke so the id does not repeat
         content: `Data with id: ${id}` // modify content here
       },
       ConditionExpression: 'attribute_not_exists(id)', // do not overwrite existing entries
