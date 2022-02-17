@@ -1,3 +1,1 @@
-# athan-api
-
-- `stackery init`
+# athan-backend
