@@ -1,5 +1,3 @@
-.stackery
-.aws-sam
-src/**/node_modules
-src/**/yarn-error.log
-src/**/dist
+apis/**/.aws-sam
+apis/**/node_modules
+apis/**/dist
