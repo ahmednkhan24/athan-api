@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    MemorySize: 128
+    Timeout: 10
+    Runtime: nodejs14.x
+    Tracing: Active
+
+Resources:
+  AthanUserPrefsApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowHeaders:
+          - '*'
+        AllowMethods:
+          - '*'
+        AllowOrigins:
+          - http://*
+          - https://*
+
+  GetData:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-GetDataFunction
+      CodeUri: dist
+      Handler: index.getDataHandler
+      Events:
+        GetDataEvent:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: GET
+            ApiId: !Ref AthanUserPrefsApi
+
+Outputs:
+  HttpApiURL:
+    Description: 'USER PREFS API URL'
+    Value: !Sub 'https://${AthanUserPrefsApi}.execute-api.${AWS::Region}.amazonaws.com/'
