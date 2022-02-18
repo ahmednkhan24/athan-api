@@ -1,4 +1,4 @@
-apis/**/.aws-sam
-apis/**/node_modules
-apis/**/dist
-apis/**/template.*.yaml
+stacks/**/.aws-sam
+stacks/**/node_modules
+stacks/**/dist
+stacks/**/template.*.yaml
