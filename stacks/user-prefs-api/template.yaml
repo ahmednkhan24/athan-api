@@ -20,6 +20,15 @@ Resources:
         AllowOrigins:
           - http://*
           - https://*
+      Auth:
+        DefaultAuthorizer: GoogleAuthorizer
+        Authorizers:
+          GoogleAuthorizer:
+            IdentitySource: $request.header.Authorization
+            JwtConfiguration:
+              issuer: https://accounts.google.com
+              audience:
+                - 913628476555-3o79riu1sfodnjve0am5fueodlgsifgj.apps.googleusercontent.com
 
   GetData:
     Type: AWS::Serverless::Function
