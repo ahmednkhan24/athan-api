@@ -3,9 +3,26 @@
 
 import fs from 'fs';
 
+const createTemplateFileData = () => {
+  const templateFileData = `\
+AWSTemplateFormatVersion: 2010-09-09\n\
+Transform: AWS::Serverless-2016-10-31\n\n\
+Resources:\n\
+  MySsm:\n\
+    Type: AWS::SSM::Parameter\n\
+    Properties:\n\
+      Type: String\n\
+      Name: /my/cool/value\n\
+      Value: hello world\n\
+      Description: My cool SSM value\n\
+  `;
+
+  return templateFileData;
+};
+
 const main = () => {
   console.log('hello');
-  fs.writeFileSync('template.yaml', 'hi!');
+  fs.writeFileSync('template.yaml', createTemplateFileData());
 };
 
 main();
