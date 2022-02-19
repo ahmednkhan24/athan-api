@@ -1,0 +1,22 @@
+{
+  "name": "parameter-store",
+  "version": "1.0.0",
+  "author": "Ahmed Khan",
+  "description": "",
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmednkhan24/athan-backend/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.18"
+  }
+}
