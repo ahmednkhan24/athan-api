@@ -1,0 +1,23 @@
+version = 0.1
+
+[default.deploy.parameters]
+debug                   = true
+disable_rollback        = false
+confirm_changeset       = false
+fail_on_empty_changeset = false
+
+[DEV.deploy.parameters]
+region        = "us-east-2"
+s3_bucket     = "athan-backend-dev"
+s3_prefix     = "parameter-store-dev"
+stack_name    = "athan-parameter-store-dev"
+template_file = "template.yaml"
+capabilities  = "CAPABILITY_IAM"
+
+[PROD.deploy.parameters]
+region        = "us-east-2"
+s3_bucket     = "athan-backend-prod"
+s3_prefix     = "parameter-store-prod"
+stack_name    = "athan-parameter-store-prod"
+template_file = "template.yaml"
+capabilities  = "CAPABILITY_IAM"

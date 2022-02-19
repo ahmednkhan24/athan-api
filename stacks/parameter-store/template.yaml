@@ -1,1 +1,11 @@
-hi!
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  MySsm:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /my/cool/value
+      Value: hello world
+      Description: My cool SSM value
