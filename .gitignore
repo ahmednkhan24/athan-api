@@ -1,3 +1,5 @@
+.DS_Store
+stacks/**/.DS_Store
 stacks/**/.aws-sam
 stacks/**/node_modules
 stacks/**/dist
