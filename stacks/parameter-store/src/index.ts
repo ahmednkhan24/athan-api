@@ -4,9 +4,12 @@
 import fs from 'fs';
 
 const createTemplateFileData = () => {
-  const templateFileData = `\
+  const header = `\
 AWSTemplateFormatVersion: 2010-09-09\n\
 Transform: AWS::Serverless-2016-10-31\n\n\
+`;
+
+  const resources = `\
 Resources:\n\
   MySsm:\n\
     Type: AWS::SSM::Parameter\n\
@@ -15,9 +18,9 @@ Resources:\n\
       Name: /my/cool/value\n\
       Value: hello world\n\
       Description: My cool SSM value\n\
-  `;
+`;
 
-  return templateFileData;
+  return `${header}${resources}`;
 };
 
 const main = () => {
