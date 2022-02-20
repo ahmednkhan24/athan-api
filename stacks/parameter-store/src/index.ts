@@ -1,31 +1,8 @@
-// TODO figure out why fs import causes error in VSCode but not compilation
-/// <reference path="../node_modules/@types/node/fs.d.ts" />
-
-import fs from 'fs';
-
-const createTemplateFileData = () => {
-  const header = `\
-AWSTemplateFormatVersion: 2010-09-09\n\
-Transform: AWS::Serverless-2016-10-31\n\n\
-Resources:\n\
-`;
-
-  const resources = `\
-  MySsm:\n\
-    Type: AWS::SSM::Parameter\n\
-    Properties:\n\
-      Type: String\n\
-      Name: /my/cool/value\n\
-      Value: hello world\n\
-      Description: My cool SSM value\n\
-`;
-
-  return `${header}${resources}`;
-};
+import { createData } from './template';
 
 const main = () => {
-  console.log('hello');
-  fs.writeFileSync('template.yaml', createTemplateFileData());
+  const awsEnv = (process.argv[2] && process.argv[2].toLowerCase()) || 'dev';
+  createData(awsEnv);
 };
 
 main();
