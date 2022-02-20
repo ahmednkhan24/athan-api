@@ -1,5 +1,7 @@
-import * as fs from 'fs';
+import { writeFileSync } from 'fs';
 import { parameters, Parameter } from './parameters';
+
+const rootName = 'athan/backend';
 
 const header = `\
 AWSTemplateFormatVersion: 2010-09-09\n\
@@ -7,29 +9,15 @@ Transform: AWS::Serverless-2016-10-31\n\n\
 Resources:\n\
 `;
 
-const resources = `\
-  MySsm:\n\
-    Type: AWS::SSM::Parameter\n\
-    Properties:\n\
-      Type: String\n\
-      Name: /my/cool/value\n\
-      Value: hello world\n\
-      Description: My cool SSM value\n\
-`;
-
-const createParameter = (param: Parameter, awsEnv: string) => {
-  console.log('param: ', param);
-  const parameter = `\
+const createParameter = (param: Parameter, awsEnv: string) => `\
   ${param.logicalId}:\n\
     Type: AWS::SSM::Parameter\n\
     Properties:\n\
       Type: String\n\
-      Name: ${param.name}\n\
+      Name: ${rootName}/${awsEnv}/${param.name}\n\
       Value: ${param[awsEnv]}\n\
       Description: ${param.description}\n\
 `;
-  return parameter;
-};
 
 export const createData = (awsEnv: string) => {
   console.log('awsEnv: ', awsEnv);
@@ -58,5 +46,5 @@ export const createData = (awsEnv: string) => {
 // };
 
 export const createFile = (templateFilesData: string) => {
-  fs.writeFileSync('template.yaml', templateFilesData);
+  writeFileSync('template.yaml', templateFilesData);
 };

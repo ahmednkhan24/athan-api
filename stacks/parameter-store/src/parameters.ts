@@ -9,7 +9,7 @@ export type Parameter = {
 export const parameters: Parameter[] = [
   {
     logicalId: 'MySsm',
-    name: '/my/cool/value',
+    name: 'helloMessage',
     description: 'Sample test ssm value',
     dev: 'hello world',
     prod: 'hello universe'
