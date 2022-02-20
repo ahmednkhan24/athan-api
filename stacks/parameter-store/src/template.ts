@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs';
 import { parameters, Parameter } from './parameters';
 
-const rootName = '/athan/backend';
+const rootName = 'athan';
 
 const header = `\
 AWSTemplateFormatVersion: 2010-09-09\n\
@@ -14,7 +14,7 @@ const createParameter = (param: Parameter, awsEnv: string) => `\
     Type: AWS::SSM::Parameter\n\
     Properties:\n\
       Type: String\n\
-      Name: ${rootName}/${awsEnv}/${param.name}\n\
+      Name: /${rootName}/${awsEnv}/${param.name}\n\
       Value: ${param[awsEnv]}\n\
       Description: ${param.description}\n\
 `;

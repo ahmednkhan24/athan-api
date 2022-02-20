@@ -26,6 +26,7 @@ const main = () => {
 
   const parameters = parseParameters(awsEnv);
   createTemplate(parameters, awsEnv);
+  console.log('done!');
 
   process.exit(0);
 };
