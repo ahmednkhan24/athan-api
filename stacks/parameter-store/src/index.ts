@@ -7,10 +7,10 @@ const createTemplateFileData = () => {
   const header = `\
 AWSTemplateFormatVersion: 2010-09-09\n\
 Transform: AWS::Serverless-2016-10-31\n\n\
+Resources:\n\
 `;
 
   const resources = `\
-Resources:\n\
   MySsm:\n\
     Type: AWS::SSM::Parameter\n\
     Properties:\n\
