@@ -1,0 +1,42 @@
+name: Deploy parameter-store to PROD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - stacks/parameter-store/**/*.ts
+      - stacks/parameter-store/**/*.json
+      - stacks/parameter-store/**/*.yaml
+      - stacks/parameter-store/**/*.toml
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy-dev:
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 14.x
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: setup node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install dependencies using npm
+        run: npm ci
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-east-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: deploy to DEV
+        run: |
+          aws sts get-caller-identity
+          npm run deploy:prod
