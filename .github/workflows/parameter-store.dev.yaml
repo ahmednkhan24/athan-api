@@ -5,7 +5,6 @@ on:
     branches:
       - main
     paths:
-      # - stacks/parameter-store/**/*.{ts,json,yaml,toml}
       - stacks/parameter-store/**/*.ts
       - stacks/parameter-store/**/*.json
       - stacks/parameter-store/**/*.yaml
@@ -16,19 +15,14 @@ on:
 
 jobs:
   deploy-dev:
-    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version:
-          - 14.x
     steps:
       - name: checkout code
         uses: actions/checkout@v2
-      - name: setup node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: setup node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '14'
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
