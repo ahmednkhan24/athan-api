@@ -2,16 +2,18 @@
   "name": "parameter-store",
   "version": "1.0.0",
   "author": "Ahmed Khan",
-  "description": "",
+  "private": true,
+  "description": "AWS SSM Parameter Store Manager",
   "main": "src/index.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/ahmednkhan24/athan-backend/"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/index.ts",
-    "deploy": "sam deploy --config-env DEV",
+    "predeploy:dev": "ts-node src/index.ts DEV",
+    "deploy:dev": "sam deploy --config-env DEV",
+    "predeploy:prod": "ts-node src/index.ts PROD",
+    "deploy:prod": "sam deploy --config-env PROD",
     "delete-stack": "env PAGER=cat aws cloudformation delete-stack --region us-east-2 --stack-name athan-parameter-store-dev"
   },
   "dependencies": {
