@@ -1,4 +1,3 @@
-import { writeFileSync } from 'fs';
 import { parameters, Parameter } from './parameters';
 
 const rootName = 'athan';
@@ -49,6 +48,3 @@ export const parseParameters = (awsEnv: string) =>
     (allParams, param) => `${allParams}${createParameter(param, awsEnv)}`,
     header
   );
-
-export const createTemplate = (templateFilesData: string, awsEnv: string) =>
-  writeFileSync(`template.${awsEnv}.yaml`, templateFilesData);

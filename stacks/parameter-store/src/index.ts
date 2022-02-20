@@ -1,8 +1,5 @@
-import {
-  validateParameters,
-  parseParameters,
-  createTemplate
-} from './template';
+import { writeFileSync } from 'fs';
+import { validateParameters, parseParameters } from './template';
 
 const validAwsEnvironments = ['dev', 'prod'];
 
@@ -25,9 +22,9 @@ const main = () => {
   }
 
   const parameters = parseParameters(awsEnv);
-  createTemplate(parameters, awsEnv);
-  console.log('done!');
+  writeFileSync(`template.${awsEnv}.yaml`, parameters);
 
+  console.log('done!');
   process.exit(0);
 };
 
