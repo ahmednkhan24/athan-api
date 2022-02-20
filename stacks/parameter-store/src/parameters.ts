@@ -1,15 +1,17 @@
-declare type Parameter = {
+export type Parameter = {
   logicalId: string;
   name: string;
   description: string;
-  dev: {
-    value: string;
-  };
-  prod: {
-    string;
-  };
+  dev: string;
+  prod: string;
 };
 
-const createParameter = (param: Parameter) => {
-  const parameter = ``;
-};
+export const Parameters: Parameter[] = [
+  {
+    logicalId: 'MySsm',
+    name: '/my/cool/value',
+    description: 'Sample test ssm value',
+    dev: 'hello world',
+    prod: 'hello universe'
+  }
+];
