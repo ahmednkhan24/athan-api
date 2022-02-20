@@ -13,5 +13,12 @@ export const parameters: Parameter[] = [
     description: 'Sample test ssm value',
     dev: 'hello world',
     prod: 'hello universe'
+  },
+  {
+    logicalId: 'hello',
+    name: 'hi',
+    description: 'Sample test ssm value',
+    dev: 'hello world',
+    prod: 'hello universe'
   }
 ];

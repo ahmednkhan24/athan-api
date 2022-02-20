@@ -6,6 +6,13 @@ Resources:
     Type: AWS::SSM::Parameter
     Properties:
       Type: String
-      Name: athan/backend/dev/helloMessage
+      Name: /athan/backend/dev/helloMessage
+      Value: hello world
+      Description: Sample test ssm value
+  hello:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name: /athan/backend/dev/hi
       Value: hello world
       Description: Sample test ssm value

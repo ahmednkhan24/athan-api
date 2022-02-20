@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs';
 import { parameters, Parameter } from './parameters';
 
-const rootName = 'athan/backend';
+const rootName = '/athan/backend';
 
 const header = `\
 AWSTemplateFormatVersion: 2010-09-09\n\
@@ -19,12 +19,36 @@ const createParameter = (param: Parameter, awsEnv: string) => `\
       Description: ${param.description}\n\
 `;
 
-export const createData = (awsEnv: string) =>
+export const validateParameters = () => {
+  const seenLogicalIds = new Set<string>();
+  const seenNames = new Set<string>();
+
+  for (const param of parameters) {
+    if (seenLogicalIds.has(param.logicalId))
+      return {
+        isValid: false,
+        duplicateType: 'logicalId',
+        duplicateValue: param.logicalId
+      };
+    if (seenNames.has(param.name))
+      return {
+        isValid: false,
+        duplicateType: 'name',
+        duplicateValue: param.name
+      };
+
+    seenLogicalIds.add(param.logicalId);
+    seenNames.add(param.name);
+  }
+
+  return { isValid: true };
+};
+
+export const parseParameters = (awsEnv: string) =>
   parameters.reduce(
     (allParams, param) => `${allParams}${createParameter(param, awsEnv)}`,
     header
   );
 
-export const createFile = (templateFilesData: string) => {
-  writeFileSync('template.yaml', templateFilesData);
-};
+export const createTemplate = (templateFilesData: string, awsEnv: string) =>
+  writeFileSync(`template.${awsEnv}.yaml`, templateFilesData);

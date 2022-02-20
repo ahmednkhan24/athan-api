@@ -1,4 +1,8 @@
-import { createData, createFile } from './template';
+import {
+  validateParameters,
+  parseParameters,
+  createTemplate
+} from './template';
 
 const validAwsEnvironments = ['dev', 'prod'];
 
@@ -12,8 +16,16 @@ const main = () => {
     process.exit(1);
   }
 
-  const data = createData(awsEnv);
-  createFile(data);
+  const { isValid, duplicateType, duplicateValue } = validateParameters();
+  if (!isValid) {
+    console.error(
+      `Parameter with '${duplicateType}' of '${duplicateValue}' already exists!\n`
+    );
+    process.exit(1);
+  }
+
+  const parameters = parseParameters(awsEnv);
+  createTemplate(parameters, awsEnv);
 
   process.exit(0);
 };
