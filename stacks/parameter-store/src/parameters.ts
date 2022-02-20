@@ -6,7 +6,7 @@ export type Parameter = {
   prod: string;
 };
 
-export const Parameters: Parameter[] = [
+export const parameters: Parameter[] = [
   {
     logicalId: 'MySsm',
     name: '/my/cool/value',

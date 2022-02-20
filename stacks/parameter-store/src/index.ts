@@ -1,4 +1,4 @@
-import { createData } from './template';
+import { createData, createFile } from './template';
 
 const validAwsEnvironments = ['dev', 'prod'];
 
@@ -12,7 +12,8 @@ const main = () => {
     process.exit(1);
   }
 
-  createData(awsEnv);
+  const data = createData(awsEnv);
+  createFile(data);
 
   process.exit(0);
 };
