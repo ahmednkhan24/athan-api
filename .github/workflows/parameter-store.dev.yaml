@@ -1,4 +1,4 @@
-name: Deploy parameter-store to DEV
+name: parameter-store to DEV
 
 on:
   pull_request:
@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - stacks/parameter-store/**/*.{ts,json,yaml,toml}
+      # - stacks/parameter-store/**/*.json
+      # - stacks/parameter-store/**/*.yaml
+      # - stacks/parameter-store/**/*.toml
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
