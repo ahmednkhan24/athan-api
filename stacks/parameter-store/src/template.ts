@@ -17,23 +17,23 @@ const resources = `\
       Description: My cool SSM value\n\
 `;
 
-const createParameter = (param: Parameter) => {
+const createParameter = (param: Parameter, awsEnv: string) => {
   console.log('param: ', param);
   const parameter = `\
-  MySsm:\n\
+  ${param.logicalId}:\n\
     Type: AWS::SSM::Parameter\n\
     Properties:\n\
       Type: String\n\
-      Name: /my/cool/value\n\
-      Value: hello world\n\
-      Description: My cool SSM value\n\
+      Name: ${param.name}\n\
+      Value: ${param[awsEnv]}\n\
+      Description: ${param.description}\n\
 `;
   return parameter;
 };
 
 export const createData = (awsEnv: string) => {
   console.log('awsEnv: ', awsEnv);
-  const param = createParameter(parameters[0]);
+  const param = createParameter(parameters[0], awsEnv);
   return `${header}${param}`;
 };
 

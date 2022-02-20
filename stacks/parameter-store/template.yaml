@@ -8,4 +8,4 @@ Resources:
       Type: String
       Name: /my/cool/value
       Value: hello world
-      Description: My cool SSM value
+      Description: Sample test ssm value
