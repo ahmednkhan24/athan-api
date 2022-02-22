@@ -11,4 +11,8 @@ Resources:
       MemorySize: 128
       Timeout: 10
       Runtime: nodejs14.x
-      Tracing: Active
+      Events:
+        AlexaSkillEvent:
+          Type: AlexaSkill
+          Properties:
+            SkillId: amzn1.ask.skill.b2707d76-213a-4a54-9905-84fad81eb7be
