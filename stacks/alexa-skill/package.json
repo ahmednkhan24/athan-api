@@ -1,0 +1,24 @@
+{
+  "name": "alexa-skill",
+  "version": "1.0.0",
+  "author": "Ahmed Khan",
+  "private": true,
+  "description": "Alexa Skill using AWS Lambda",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmednkhan24/athan-backend/"
+  },
+  "scripts": {
+    "precompile": "rm -rf dist",
+    "compile": "tsc -p tsconfig.prod.json",
+    "process": "sed -e 's/{DEPLOYMENT_ENVIRONMENT}/dev/g' template.yaml > template.dev.yaml",
+    "predeploy": "npm run compile && npm run process && sam validate -t template.dev.yaml",
+    "deploy": "sam deploy --config-env DEV",
+    "delete-stack": "env PAGER=cat aws cloudformation delete-stack --region us-east-2 --stack-name athan-alexa-skill-dev"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^3.5.3"
+  }
+}
