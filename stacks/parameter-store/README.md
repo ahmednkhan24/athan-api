@@ -7,3 +7,5 @@
 - Update the [parameters](src/parameters.ts) array with necessary changes
 - Create a pull-request to auto-deploy the DEV changes to the DEV environment
 - Merge the pull-request to auto-deploy the PROD changes to the PROD environment
+
+### Only resources that needed to be manually created were the S3 buckets
