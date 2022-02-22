@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable no-console */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable camelcase */
 import { main as generateRequests } from './athan';
 
 // const PERMISSIONS = ['alexa::alerts:reminders:skill:readwrite'];

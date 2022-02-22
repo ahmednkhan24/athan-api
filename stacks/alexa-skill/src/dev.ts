@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import { main } from './athan';
 
 const dev = async () => {
@@ -8,7 +7,6 @@ const dev = async () => {
     message: request.alertInfo.spokenInfo.content[0].text
   }));
 
-  // eslint-disable-next-line no-console
   console.log(filtered);
 };
 

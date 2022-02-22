@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { SkillBuilders, DefaultApiClient } from 'ask-sdk-core';
 import * as intents from './intents';
 
