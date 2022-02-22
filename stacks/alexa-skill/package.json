@@ -10,6 +10,9 @@
     "url": "https://github.com/ahmednkhan24/athan-backend/"
   },
   "scripts": {
+    "predev": "npm run compile",
+    "dev": "node ./dist/dev.js",
+    "test": "jest --coverage",
     "precompile": "rm -rf dist",
     "compile": "tsc -p tsconfig.prod.json",
     "postcompile": "cp package.json dist && cp package-lock.json dist && cd dist && npm install --prod",

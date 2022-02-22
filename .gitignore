@@ -4,3 +4,4 @@ stacks/**/.aws-sam
 stacks/**/node_modules
 stacks/**/dist
 stacks/**/template.*.yaml
+stacks/**/coverage
