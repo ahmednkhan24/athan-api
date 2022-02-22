@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import { main } from './logic';
+import { main } from './athan';
 
 const dev = async () => {
   const requests = await main();
