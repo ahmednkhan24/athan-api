@@ -1,11 +1,11 @@
-import fetchPrayerTimes, { Timings, AllTimings } from './fetchPrayers';
+import fetchPrayerTimes, { Timings, AllTimings } from './api/fetchPrayers';
 import {
   createMomentObject,
   createMomentTime,
   subtractAndFormat
-} from './dateAndTime';
-import createReminderRequest from './createReminderRequest';
-import messages from './messages';
+} from './time/dateAndTime';
+import createReminderRequest from './reminders/createReminderRequest';
+import messages from './reminders/messages';
 
 export const createPrayerArray = (prayers: Timings) =>
   Object.keys(prayers).map((prayer) => ({

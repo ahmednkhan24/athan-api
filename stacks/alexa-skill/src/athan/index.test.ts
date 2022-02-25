@@ -1,9 +1,9 @@
 import { main, filterPrayers } from '.';
-import fetchPrayers from './fetchPrayers';
-import messages from './messages';
-import apiResponse from './sampleApiResponse.json';
+import messages from './reminders/messages';
+import fetchPrayers from './api/fetchPrayers';
+import apiResponse from './api/sampleApiResponse.json';
 
-jest.mock('./fetchPrayers', () => jest.fn());
+jest.mock('./api/fetchPrayers', () => jest.fn());
 
 describe('Index', () => {
   // setups because we are mutating the original array using `delete`
