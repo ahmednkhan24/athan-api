@@ -1,3 +1,4 @@
+import { RequestHandler, HandlerInput } from 'ask-sdk-core';
 import { main as generateRequests } from './athan';
 
 // const PERMISSIONS = ['alexa::alerts:reminders:skill:readwrite'];
@@ -71,112 +72,57 @@ export const SetPrayerTimes_Handler = {
   }
 };
 
-// Required intent handler
-export const AMAZON_CancelIntent_Handler = {
-  canHandle(handlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return (
-      request.type === 'IntentRequest' &&
-      request.intent.name === 'AMAZON.CancelIntent'
-    );
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-      .speak('Okay, talk to you later!')
-      .withShouldEndSession(true)
-      .getResponse();
-  }
-};
+export type CreateCanHandler = (n: string) => (i: HandlerInput) => boolean;
+
+// function that returns a function
+const createCanHandler: CreateCanHandler =
+  (intentName: string) =>
+  ({ requestEnvelope: { request } }) =>
+    request.type === 'IntentRequest' && request.intent.name === intentName;
+
+const genericHandler = ({ responseBuilder }: HandlerInput) =>
+  responseBuilder
+    .speak('Okay, talk to you later!')
+    .withShouldEndSession(true)
+    .getResponse();
 
 // Required intent handler
-export const AMAZON_StopIntent_Handler = {
-  canHandle(handlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return (
-      request.type === 'IntentRequest' &&
-      request.intent.name === 'AMAZON.StopIntent'
-    );
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-      .speak('Okay, talk to you later!')
-      .withShouldEndSession(true)
-      .getResponse();
-  }
+export const AMAZON_CancelIntent_Handler: RequestHandler = {
+  canHandle: createCanHandler('AMAZON.CancelIntent'),
+  handle: genericHandler
 };
 
 // Required intent handler
-export const AMAZON_HelpIntent_Handler = {
-  canHandle(handlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return (
-      request.type === 'IntentRequest' &&
-      request.intent.name === 'AMAZON.HelpIntent'
-    );
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-      .speak('Okay, talk to you later!')
-      .withShouldEndSession(true)
-      .getResponse();
-  }
+export const AMAZON_StopIntent_Handler: RequestHandler = {
+  canHandle: createCanHandler('AMAZON.StopIntent'),
+  handle: genericHandler
 };
 
 // Required intent handler
-export const AMAZON_NavigateHomeIntent_Handler = {
-  canHandle(handlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return (
-      request.type === 'IntentRequest' &&
-      request.intent.name === 'AMAZON.NavigateHomeIntent'
-    );
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-      .speak('Okay, talk to you later!')
-      .withShouldEndSession(true)
-      .getResponse();
-  }
+export const AMAZON_HelpIntent_Handler: RequestHandler = {
+  canHandle: createCanHandler('AMAZON.HelpIntent'),
+  handle: genericHandler
 };
 
 // Required intent handler
-export const AMAZON_FallbackIntent_Handler = {
-  canHandle(handlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return (
-      request.type === 'IntentRequest' &&
-      request.intent.name === 'AMAZON.FallbackIntent'
-    );
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-      .speak('Okay, talk to you later!')
-      .withShouldEndSession(true)
-      .getResponse();
-  }
+export const AMAZON_NavigateHomeIntent_Handler: RequestHandler = {
+  canHandle: createCanHandler('AMAZON.NavigateHomeIntent'),
+  handle: genericHandler
 };
 
-export const SessionEndedHandler = {
-  canHandle(handlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return request.type === 'SessionEndedRequest';
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-      .speak('Okay, talk to you later!')
-      .withShouldEndSession(true)
-      .getResponse();
-  }
+// Required intent handler
+export const AMAZON_FallbackIntent_Handler: RequestHandler = {
+  canHandle: createCanHandler('AMAZON.FallbackIntent'),
+  handle: genericHandler
 };
 
-export const ErrorHandler = {
-  canHandle() {
-    return true;
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-      .speak('Okay, talk to you later!')
-      .withShouldEndSession(true)
-      .getResponse();
-  }
+// Required intent handler
+export const SessionEndedHandler: RequestHandler = {
+  canHandle: createCanHandler('SessionEndedRequest'),
+  handle: genericHandler
+};
+
+export const ErrorHandler: RequestHandler = {
+  canHandle: () => true,
+  handle: genericHandler
 };
