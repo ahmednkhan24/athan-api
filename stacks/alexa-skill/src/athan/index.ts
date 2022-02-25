@@ -3,7 +3,7 @@ import {
   createMomentObject,
   createMomentTime,
   subtractAndFormat
-} from './time/dateAndTime';
+} from './time';
 import createReminderRequest from './reminders/createRequest';
 import messages from './reminders/messages';
 

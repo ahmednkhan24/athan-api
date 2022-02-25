@@ -1,8 +1,4 @@
-import {
-  createMomentObject,
-  createMomentTime,
-  subtractAndFormat
-} from './dateAndTime';
+import { createMomentObject, createMomentTime, subtractAndFormat } from './';
 
 describe('dateAndTime', () => {
   it('createMomentTime hour < 12', () => {
