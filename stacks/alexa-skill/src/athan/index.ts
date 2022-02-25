@@ -4,7 +4,7 @@ import {
   createMomentTime,
   subtractAndFormat
 } from './time/dateAndTime';
-import createReminderRequest from './reminders/createReminderRequest';
+import createReminderRequest from './reminders/createRequest';
 import messages from './reminders/messages';
 
 export const createPrayerArray = (prayers: Timings) =>
