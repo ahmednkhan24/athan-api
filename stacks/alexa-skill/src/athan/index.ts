@@ -1,4 +1,4 @@
-import fetchPrayerTimes, { Timings, AllTimings } from './api/fetchPrayers';
+import fetchPrayerTimes, { Timings, AllTimings } from './api';
 import {
   createMomentObject,
   createMomentTime,

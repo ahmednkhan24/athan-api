@@ -1,4 +1,4 @@
-import fetchPrayers from './fetchPrayers';
+import fetchPrayers from './';
 import athanApi from './api';
 import apiResponse from './sampleApiResponse.json';
 
