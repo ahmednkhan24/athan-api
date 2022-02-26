@@ -8,17 +8,10 @@ export type Parameter = {
 
 export const parameters: Parameter[] = [
   {
-    logicalId: 'MySsm',
-    name: 'helloMessage',
-    description: 'Sample test ssm value',
-    dev: 'hello world',
-    prod: 'hello universe'
-  },
-  {
-    logicalId: 'hello',
-    name: 'hi',
-    description: 'Sample test ssm value',
-    dev: 'hello world',
-    prod: 'hello universe!!!!'
+    logicalId: 'AlexaSkillId',
+    name: 'alexa-skill-id',
+    description: 'Athan Alexa Skill ID',
+    dev: 'amzn1.ask.skill.d637ecd3-7534-4d17-a681-31eb557020a5',
+    prod: 'amzn1.ask.skill.b2707d76-213a-4a54-9905-84fad81eb7be'
   }
 ];
