@@ -1,7 +1,7 @@
-name: alexa-skill to PROD
+name: alexa-skill to DEV
 
 on:
-  push:
+  pull_request:
     branches:
       - main
     paths:
@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy-prod:
+  deploy-dev:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
@@ -29,16 +29,10 @@ jobs:
           aws-region: us-east-2
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: deploy to PROD
+      - name: deploy to DEV
         working-directory: stacks/alexa-skill
         run: |
           npm ci
           npm test
-          rm -rf dist
-          tsc -p tsconfig.prod.json
-          cp package.json dist && cp package-lock.json dist
-          cd dist && npm install --prod && cd ../
-          sed -e 's/{DEPLOYMENT_ENVIRONMENT}/prod/g' template.yaml > template.prod.yaml
           aws sts get-caller-identity
-          sam validate -t template.prod.yaml
-          sam deploy --config-env PROD
+          npm run deploy

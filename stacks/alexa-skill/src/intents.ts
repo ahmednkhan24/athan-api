@@ -1,7 +1,7 @@
 import { RequestHandler, HandlerInput } from 'ask-sdk-core';
 import { main as generateRequests } from './athan';
 
-// const PERMISSIONS = ['alexa::alerts:reminders:skill:readwrite'];
+const PERMISSIONS = ['alexa::alerts:reminders:skill:readwrite'];
 
 export const LaunchRequest_Handler = {
   canHandle(handlerInput) {

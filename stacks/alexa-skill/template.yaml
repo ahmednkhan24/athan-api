@@ -1,6 +1,11 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 
+Parameters:
+  AlexaSkillId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /athan/{DEPLOYMENT_ENVIRONMENT}/alexa-skill-id
+
 Resources:
   AlexaLambda:
     Type: AWS::Serverless::Function
@@ -15,4 +20,4 @@ Resources:
         AlexaSkillEvent:
           Type: AlexaSkill
           Properties:
-            SkillId: amzn1.ask.skill.b2707d76-213a-4a54-9905-84fad81eb7be
+            SkillId: !Ref AlexaSkillId
