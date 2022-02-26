@@ -3,15 +3,55 @@ import { main as generateRequests } from './athan';
 
 const PERMISSIONS = ['alexa::alerts:reminders:skill:readwrite'];
 
+// function that returns a function
+const createCanHandler: CreateCanHandler =
+  (intentName: string) =>
+  ({ requestEnvelope: { request } }) =>
+    request.type === 'IntentRequest' && request.intent.name === intentName;
+
+const genericHandler = ({ responseBuilder }: HandlerInput) =>
+  responseBuilder
+    .speak('Okay, talk to you later!')
+    .withShouldEndSession(true)
+    .getResponse();
+
+const createRemindersAndEndSession = async (
+  responseBuilder: any,
+  serviceClientFactory
+) => {
+  const client = serviceClientFactory.getReminderManagementServiceClient();
+  const reminders = await generateRequests();
+
+  if (!reminders) {
+    return responseBuilder
+      .speak('An error occurred with the prayer time a.p.i.')
+      .getResponse();
+  }
+
+  console.log('requests: ', JSON.stringify(reminders));
+  reminders.forEach(async (reminderRequest) => {
+    try {
+      const reminderResponse = await client.createReminder(reminderRequest);
+      console.log(
+        'reminderRequestResponse: ',
+        JSON.stringify(reminderResponse)
+      );
+    } catch (err) {
+      console.log(
+        'There was an error creating reminder: ',
+        JSON.stringify(reminderRequest)
+      );
+    }
+  });
+
+  return responseBuilder.withShouldEndSession(true).getResponse();
+};
+
 export const LaunchRequest_Handler = {
-  canHandle(handlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return request.type === 'LaunchRequest';
-  },
-  async handle(handlerInput) {
-    const { responseBuilder } = handlerInput;
-    const client =
-      handlerInput.serviceClientFactory.getReminderManagementServiceClient();
+  canHandle: createCanHandler('LaunchRequest'),
+  handle: async (handlerInput) => {
+    const { responseBuilder, serviceClientFactory } = handlerInput;
+
     // const { permissions } = handlerInput.requestEnvelope.context.System.user;
     // if (permissions && !permissions.consentToken) {
     //   return responseBuilder
@@ -20,31 +60,12 @@ export const LaunchRequest_Handler = {
     //     .getResponse();
     // }
     try {
-      const reminders = await generateRequests();
+      const response = await createRemindersAndEndSession(
+        responseBuilder,
+        serviceClientFactory
+      );
 
-      if (!reminders) {
-        return responseBuilder
-          .speak('An error occurred with the prayer time a.p.i.')
-          .getResponse();
-      }
-
-      console.log('requests: ', JSON.stringify(reminders));
-      reminders.forEach(async (reminderRequest) => {
-        try {
-          const reminderResponse = await client.createReminder(reminderRequest);
-          console.log(
-            'reminderRequestResponse: ',
-            JSON.stringify(reminderResponse)
-          );
-        } catch (err) {
-          console.log(
-            'There was an error creating reminder: ',
-            JSON.stringify(reminderRequest)
-          );
-        }
-      });
-
-      return responseBuilder.withShouldEndSession(true).getResponse();
+      return response;
     } catch (error) {
       console.log('error: ', error);
       return responseBuilder
@@ -73,18 +94,6 @@ export const SetPrayerTimes_Handler = {
 };
 
 export type CreateCanHandler = (n: string) => (i: HandlerInput) => boolean;
-
-// function that returns a function
-const createCanHandler: CreateCanHandler =
-  (intentName: string) =>
-  ({ requestEnvelope: { request } }) =>
-    request.type === 'IntentRequest' && request.intent.name === intentName;
-
-const genericHandler = ({ responseBuilder }: HandlerInput) =>
-  responseBuilder
-    .speak('Okay, talk to you later!')
-    .withShouldEndSession(true)
-    .getResponse();
 
 // Required intent handler
 export const AMAZON_CancelIntent_Handler: RequestHandler = {
