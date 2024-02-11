@@ -1,1 +1,1 @@
-export { default as getDataHandler } from './getData';
+export { default as createDataHandler } from './createData';

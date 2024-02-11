@@ -5,8 +5,13 @@ Globals:
   Function:
     MemorySize: 128
     Timeout: 10
-    Runtime: nodejs18.x
+    Runtime: nodejs16.x
     Tracing: Active
+
+Parameters:
+  DatabaseName:
+    Type: String
+    Default: athan-tracker-db-dev
 
 Resources:
   TrackerApi:
@@ -20,28 +25,22 @@ Resources:
         AllowOrigins:
           - http://*
           - https://*
-      # Auth:
-      #   DefaultAuthorizer: GoogleAuthorizer
-      #   Authorizers:
-      #     GoogleAuthorizer:
-      #       IdentitySource: $request.header.Authorization
-      #       JwtConfiguration:
-      #         issuer: https://accounts.google.com
-      #         audience:
-      #           - 913628476555-3o79riu1sfodnjve0am5fueodlgsifgj.apps.googleusercontent.com
 
-  GetData:
+  CreateData:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub ${AWS::StackName}-GetDataFunction
+      FunctionName: !Sub ${AWS::StackName}-CreateDataFunction
       CodeUri: dist
-      Handler: index.getDataHandler
+      Handler: index.createDataHandler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DatabaseName
       Events:
-        GetDataEvent:
+        CreateDataEvent:
           Type: HttpApi
           Properties:
             Path: /
-            Method: GET
+            Method: POST
             ApiId: !Ref TrackerApi
 
 Outputs:

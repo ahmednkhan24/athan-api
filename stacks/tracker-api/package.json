@@ -15,7 +15,7 @@
     "process": "sed -e 's/{DEPLOYMENT_ENVIRONMENT}/dev/g' template.yaml > template.dev.yaml",
     "predeploy": "npm run compile && npm run process && sam validate -t template.dev.yaml",
     "deploy": "sam deploy --config-env DEV",
-    "delete-stack": "env PAGER=cat aws cloudformation delete-stack --region us-east-2 --stack-name athan-user-prefs-dev"
+    "delete-stack": "env PAGER=cat aws cloudformation delete-stack --region us-east-2 --stack-name athan-tracker-dev"
   },
   "dependencies": {
     "aws-sdk": "^2.726.0",
