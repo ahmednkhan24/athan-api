@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    MemorySize: 128
+    Timeout: 10
+    Runtime: nodejs18.x
+    Tracing: Active
+
+Resources:
+  TrackerApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowHeaders:
+          - '*'
+        AllowMethods:
+          - '*'
+        AllowOrigins:
+          - http://*
+          - https://*
+      # Auth:
+      #   DefaultAuthorizer: GoogleAuthorizer
+      #   Authorizers:
+      #     GoogleAuthorizer:
+      #       IdentitySource: $request.header.Authorization
+      #       JwtConfiguration:
+      #         issuer: https://accounts.google.com
+      #         audience:
+      #           - 913628476555-3o79riu1sfodnjve0am5fueodlgsifgj.apps.googleusercontent.com
+
+  GetData:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-GetDataFunction
+      CodeUri: dist
+      Handler: index.getDataHandler
+      Events:
+        GetDataEvent:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: GET
+            ApiId: !Ref TrackerApi
+
+Outputs:
+  HttpApiURL:
+    Description: 'TRACKER API URL'
+    Value: !Sub 'https://${TrackerApi}.execute-api.${AWS::Region}.amazonaws.com/'

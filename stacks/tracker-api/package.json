@@ -1,0 +1,37 @@
+{
+  "name": "tracker-api",
+  "version": "1.0.0",
+  "author": "Ahmed Khan",
+  "private": true,
+  "description": "API to interact with Tracker DB",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmednkhan24/athan-backend/"
+  },
+  "scripts": {
+    "precompile": "rm -rf dist",
+    "compile": "tsc -p tsconfig.prod.json",
+    "process": "sed -e 's/{DEPLOYMENT_ENVIRONMENT}/dev/g' template.yaml > template.dev.yaml",
+    "predeploy": "npm run compile && npm run process && sam validate -t template.dev.yaml",
+    "deploy": "sam deploy --config-env DEV",
+    "delete-stack": "env PAGER=cat aws cloudformation delete-stack --region us-east-2 --stack-name athan-user-prefs-dev"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.726.0",
+    "lodash": "^4.17.21",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.76",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/jest": "^26.0.22",
+    "@types/lodash": "^4.14.177",
+    "@types/node": "^12.6.8",
+    "@types/uuid": "^8.3.3",
+    "jest": "^26.6.3",
+    "prettier": "^2.3.2",
+    "ts-jest": "^26.5.4",
+    "typescript": "^3.5.3"
+  }
+}
