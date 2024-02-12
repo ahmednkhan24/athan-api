@@ -1,17 +1,20 @@
 AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 
+Parameters:
+  DatabaseName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /athan/{DEPLOYMENT_ENVIRONMENT}/athan-tracker-database-name
+
 Globals:
   Function:
     MemorySize: 128
     Timeout: 10
     Runtime: nodejs16.x
     Tracing: Active
-
-Parameters:
-  DatabaseName:
-    Type: String
-    Default: athan-tracker-db-dev
+    Environment:
+      Variables:
+        DB_TABLE_NAME: !Ref DatabaseName
 
 Resources:
   TrackerApi:
@@ -26,12 +29,12 @@ Resources:
           - http://*
           - https://*
 
-  CreateData:
+  TrackData:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub ${AWS::StackName}-CreateDataFunction
+      FunctionName: !Sub ${AWS::StackName}-TrackDataFunction
       CodeUri: dist
-      Handler: index.createDataHandler
+      Handler: index.trackDataHandler
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref DatabaseName
@@ -39,9 +42,10 @@ Resources:
         CreateDataEvent:
           Type: HttpApi
           Properties:
-            Path: /
+            Path: /track
             Method: POST
             ApiId: !Ref TrackerApi
+            PayloadFormatVersion: '2.0'
 
 Outputs:
   HttpApiURL:
