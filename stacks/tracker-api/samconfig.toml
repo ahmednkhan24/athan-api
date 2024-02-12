@@ -9,15 +9,15 @@ fail_on_empty_changeset = false
 [DEV.deploy.parameters]
 region        = "us-east-2"
 s3_bucket     = "athan-backend-dev"
-s3_prefix     = "tracker-dev"
-stack_name    = "athan-tracker-dev"
+s3_prefix     = "tracker-api-dev"
+stack_name    = "athan-tracker-api-dev"
 template_file = "template.dev.yaml"
 capabilities  = "CAPABILITY_IAM"
 
 [PROD.deploy.parameters]
 region        = "us-east-2"
 s3_bucket     = "athan-backend-prod"
-s3_prefix     = "tracker-prod"
-stack_name    = "athan-tracker-prod"
+s3_prefix     = "tracker-api-prod"
+stack_name    = "athan-tracker-api-prod"
 template_file = "template.prod.yaml"
 capabilities  = "CAPABILITY_IAM"
