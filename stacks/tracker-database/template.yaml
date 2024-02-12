@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  DatabaseName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /athan/{DEPLOYMENT_ENVIRONMENT}/athan-tracker-database-name
+
+Resources:
+  AthanTrackerDatabase:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref DatabaseName
+      AttributeDefinitions:
+        # partition key
+        - AttributeName: email
+          AttributeType: S # string
+        # sort key
+        - AttributeName: date
+          AttributeType: S # string
+      KeySchema:
+        # partition key
+        - AttributeName: email
+          KeyType: HASH
+        # sort key
+        - AttributeName: date
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1

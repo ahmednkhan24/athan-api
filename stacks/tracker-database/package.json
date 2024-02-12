@@ -1,0 +1,16 @@
+{
+  "name": "tracker-database",
+  "version": "1.0.0",
+  "author": "Ahmed Khan",
+  "private": true,
+  "description": "Tracker DB",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahmednkhan24/athan-backend/"
+  },
+  "scripts": {
+    "process": "sed -e 's/{DEPLOYMENT_ENVIRONMENT}/dev/g' template.yaml > template.dev.yaml",
+    "predeploy": "npm run process && sam validate -t template.dev.yaml",
+    "deploy": "sam deploy --config-env DEV"
+  }
+}
